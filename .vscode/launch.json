@@ -1,0 +1,27 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": [
+                "-b", "MobileNet",
+                "-w", "../models/MobileNet/weights_mobilenet_technical_0.11.hdf5",
+                //"-is", "./tests/test_images/42039.jpg"
+                "-is", "./tests/test_images"
+            ],
+            "console": "integratedTerminal",
+            //"cwd": "${workspaceFolder}",
+            //"cwd": "H:\\Dev\\IQA\\image-quality-assessment\\src",
+            "cwd": "H:/Dev/IQA/image-quality-assessment/src",
+            "env": {
+                "PYTHONPATH": "${cwd}"
+            }
+        }
+    ]
+}
