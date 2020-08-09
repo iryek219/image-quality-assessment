@@ -13,12 +13,15 @@
                 "-b", "MobileNet",
                 "-w", "../models/MobileNet/weights_mobilenet_technical_0.11.hdf5",
                 //"-is", "./tests/test_images/42039.jpg"
-                "-is", "./tests/test_images"
+                //"-is", "./tests/test_images"
+                //"-is", "../../IQA/decoded_selected/00_meal_17_006"
+                "-is", "../../IQA/decoded_selected/1Night2Days_4_E31_015"
             ],
             "console": "integratedTerminal",
             //"cwd": "${workspaceFolder}",
             //"cwd": "H:\\Dev\\IQA\\image-quality-assessment\\src",
-            "cwd": "H:/Dev/IQA/image-quality-assessment/src",
+            //"cwd": "H:/Dev/IQA/image-quality-assessment/src",
+            "cwd": "C:/Dev/image-quality-assessment/src",
             "env": {
                 "PYTHONPATH": "${cwd}"
             }

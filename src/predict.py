@@ -10,7 +10,8 @@ from handlers.data_generator import TestDataGenerator
 
 def image_file_to_json(img_path):
     img_dir = os.path.dirname(img_path)
-    img_id = os.path.basename(img_path).split('.')[0]
+    #img_id = os.path.basename(img_path).split('.')[0]
+    img_id = os.path.basename(img_path)[:-4]
 
     return img_dir, [{'image_id': img_id}]
 
@@ -20,7 +21,8 @@ def image_dir_to_json(img_dir, img_type='jpg'):
 
     samples = []
     for img_path in img_paths:
-        img_id = os.path.basename(img_path).split('.')[0]
+        #img_id = os.path.basename(img_path).split('.')[0]
+        img_id = os.path.basename(img_path)[:-4]
         samples.append({'image_id': img_id})
 
     return samples
@@ -39,6 +41,11 @@ def main(base_model_name, weights_file, image_source, predictions_file, img_form
         image_dir = image_source
         samples = image_dir_to_json(image_dir, img_type='jpg')
 
+    print('base_model_name: ', base_model_name)
+    print('weights_file: ', weights_file)
+    print('image_source: ', image_source)
+    print('image_dir: ', image_dir)
+
     # build model and load weights
     nima = Nima(base_model_name, weights=None)
     nima.build()
@@ -54,6 +61,10 @@ def main(base_model_name, weights_file, image_source, predictions_file, img_form
     # calc mean scores and add to samples
     for i, sample in enumerate(samples):
         sample['mean_score_prediction'] = calc_mean_score(predictions[i])
+        os.rename(os.path.join(image_dir,sample['image_id']+'.jpg'),\
+                  os.path.join(image_dir, \
+                      str(sample['mean_score_prediction'])+sample['image_id']+'.jpg'))
+
 
     print(json.dumps(samples, indent=2))
 
@@ -64,8 +75,11 @@ def main(base_model_name, weights_file, image_source, predictions_file, img_form
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-b', '--base-model-name', help='CNN base model name', required=True)
-    parser.add_argument('-w', '--weights-file', help='path of weights file', required=True)
+    parser.add_argument('-b', '--base-model-name', help='CNN base model name', required=False, \
+                                default='MobileNet' )
+    parser.add_argument('-w', '--weights-file', help='path of weights file', required=False, \
+#                                default='../models/MobileNet/weights_mobilenet_technical_0.11.hdf5')
+                                default='../models/MobileNet/weights_mobilenet_aesthetic_0.07.hdf5')
     parser.add_argument('-is', '--image-source', help='image directory or file', required=True)
     parser.add_argument('-pf', '--predictions-file', help='file with predictions', required=False, default=None)
 
